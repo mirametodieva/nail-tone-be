@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/nail-polish")
+@RequestMapping("/api/nail-polishes")
 public class NailPolishController {
 
     private final NailPolishService nailPolishService;

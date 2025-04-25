@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/photo")
+@RequestMapping("/api/images")
 public class ImageController {
 
     private final ImageLightEnhanceService imageLightEnhanceService;

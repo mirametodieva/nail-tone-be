@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "beauty_salon")
+@Document(collection = "beauty_salons")
 @Getter
 @Setter
 @NoArgsConstructor

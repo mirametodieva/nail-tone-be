@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "nail_polish")
+@Document(collection = "nail_polishes")
 @Getter
 @Setter
 @NoArgsConstructor
