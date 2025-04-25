@@ -1,21 +1,19 @@
 package com.getthecolor.nailtonebe.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
-@Document(collection = "beauty_salon")
+@Document(collection = "nail_polish")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BeautySalon {
+public class NailPolish {
 
     @Id
     private String id;
@@ -23,9 +21,10 @@ public class BeautySalon {
     private String name;
 
     @Indexed(unique = true)
-    private String email;
+    private int catalogNumber;
 
-    private String password;
+    private String serialNumber;
 
-    private List<NailPolish> nailPolishes;
+    private String colorCode;
+
 }
