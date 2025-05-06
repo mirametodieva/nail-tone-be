@@ -14,4 +14,6 @@ public class CreateNailPolishModel {
     private String serialNumber;
 
     private String colorCode;
+
+    private String brand;
 }

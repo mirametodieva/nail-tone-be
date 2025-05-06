@@ -27,4 +27,6 @@ public class NailPolish {
 
     private String colorCode;
 
+    private String brand;
+
 }

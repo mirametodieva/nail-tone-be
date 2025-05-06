@@ -4,6 +4,8 @@ package com.getthecolor.nailtonebe.controllers;
 import com.getthecolor.nailtonebe.controllers.models.CreateNailPolishModel;
 import com.getthecolor.nailtonebe.entities.NailPolish;
 import com.getthecolor.nailtonebe.services.NailPolishService;
+import jakarta.websocket.server.PathParam;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,12 @@ public class NailPolishController {
     }
 
     @PostMapping()
-    public void createNailPolish(@RequestBody CreateNailPolishModel model) {
-        nailPolishService.create(model);
+    public void createNailPolish(@RequestBody CreateNailPolishModel model, Authentication authentication) {
+        nailPolishService.create(model, authentication);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNailPolish(@PathVariable String id, Authentication authentication) {
+        nailPolishService.deleteById(id, authentication);
     }
 }
