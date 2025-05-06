@@ -32,9 +32,9 @@ public class ImageController {
     }
 
     @PostMapping("/segment-nails")
-    public ResponseEntity<byte[]> segmentNails(@RequestParam("image") MultipartFile image) throws IOException {
+    public ResponseEntity<byte[]> segmentNails(@RequestParam("file") MultipartFile file) throws IOException {
         var tempFile = File.createTempFile("upload_", ".jpg");
-        image.transferTo(tempFile);
+        file.transferTo(tempFile);
 
         var result = nailSegmentationService.segmentNails(tempFile);
         tempFile.delete();

@@ -4,7 +4,6 @@ package com.getthecolor.nailtonebe.controllers;
 import com.getthecolor.nailtonebe.controllers.models.CreateNailPolishModel;
 import com.getthecolor.nailtonebe.entities.NailPolish;
 import com.getthecolor.nailtonebe.services.NailPolishService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 

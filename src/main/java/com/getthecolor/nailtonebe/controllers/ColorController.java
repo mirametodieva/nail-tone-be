@@ -5,8 +5,11 @@ import com.getthecolor.nailtonebe.services.ColorService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -20,7 +23,8 @@ public class ColorController {
     }
 
     @GetMapping()
-    public List<NailPolish> findClosestNailPolishes(@PathParam("colorCode") String colorCode) {
-        return colorService.findClosestNailPolishes(colorCode);
+    public List<NailPolish> findClosestNailPolishes(@RequestParam("colorCode") String colorCode) {
+        String decodedColor = URLDecoder.decode(colorCode, StandardCharsets.UTF_8);
+        return colorService.findClosestNailPolishes(decodedColor);
     }
 }
