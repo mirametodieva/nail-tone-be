@@ -5,8 +5,10 @@ import com.getthecolor.nailtonebe.controllers.models.RegistrationModel;
 import com.getthecolor.nailtonebe.entities.BeautySalon;
 import com.getthecolor.nailtonebe.repositories.BeautySalonRepository;
 import com.getthecolor.nailtonebe.utils.JwtUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -25,8 +27,10 @@ public class AuthService {
 
     public String register(RegistrationModel model) {
         if (salonRepository.findByEmail(model.getEmail()).isPresent()) {
-            throw new RuntimeException("A salon with this email already exists.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A salon with this email already exists.");
         }
+
+        validatePassword(model.getPassword());
 
         var salon = new BeautySalon();
         salon.setId(UUID.randomUUID().toString());
@@ -40,12 +44,31 @@ public class AuthService {
 
     public String login(LoginModel model) {
         BeautySalon salon = salonRepository.findByEmail(model.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Invalid credentials"));
 
         if (!passwordEncoder.matches(model.getPassword(), salon.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Invalid credentials");
         }
 
         return jwtUtil.generateToken(String.valueOf(salon.getId()));
     }
+
+    private void validatePassword(String password) {
+        if (password == null || password.length() < 8 || password.length() > 50) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must be between 8 and 50 characters.");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must contain at least one uppercase letter.");
+        }
+        if (!password.matches(".*[a-z].*")) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must contain at least one lowercase letter.");
+        }
+        if (!password.matches(".*\\d.*")) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must contain at least one digit.");
+        }
+        if (!password.matches(".*[!@#$%^&*()-+=<>?].*")) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must contain at least one special character (!@#$%^&*()-+=<>?).");
+        }
+    }
+
 }

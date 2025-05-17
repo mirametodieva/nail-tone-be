@@ -4,8 +4,10 @@ import com.getthecolor.nailtonebe.controllers.models.CreateNailPolishModel;
 import com.getthecolor.nailtonebe.entities.NailPolish;
 import com.getthecolor.nailtonebe.repositories.BeautySalonRepository;
 import com.getthecolor.nailtonebe.repositories.NailPolishRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +31,14 @@ public class NailPolishService {
     public void create(CreateNailPolishModel model, Authentication authentication) {
         String userId = (String) authentication.getPrincipal();
         var salon = beautySalonRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Salon not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Salon not found"));
         if (salon.getNailPolishes() == null) {
             salon.setNailPolishes(new ArrayList<>());
         }
 
         if (salon.getNailPolishes().stream().anyMatch(nailPolish ->
                 nailPolish.getCatalogNumber() == model.getCatalogNumber())) {
-            throw new RuntimeException("A nail polish with this catalog number already exists.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A nail polish with this catalog number already exists.");
         }
 
         var nailPolish = new NailPolish();
@@ -57,7 +59,7 @@ public class NailPolishService {
     public void deleteById(String id, Authentication authentication) {
         String userId = (String) authentication.getPrincipal();
         var salon = beautySalonRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Salon not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Salon not found"));
 
         List<NailPolish> updatedPolishes = salon.getNailPolishes()
                 .stream()

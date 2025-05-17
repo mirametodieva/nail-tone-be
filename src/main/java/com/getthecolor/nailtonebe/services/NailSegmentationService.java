@@ -5,6 +5,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 
@@ -32,7 +33,7 @@ public class NailSegmentationService {
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            throw new RuntimeException("Failed to segment nails: " + response.getStatusCode());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Failed to segment nails: " + response.getStatusCode());
         }
     }
 }

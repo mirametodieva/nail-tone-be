@@ -2,8 +2,10 @@ package com.getthecolor.nailtonebe.services;
 
 import com.getthecolor.nailtonebe.entities.BeautySalon;
 import com.getthecolor.nailtonebe.repositories.BeautySalonRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class BeautySalonService {
@@ -17,7 +19,7 @@ public class BeautySalonService {
     public BeautySalon getUserDetails(Authentication authentication) {
         String userId = (String) authentication.getPrincipal();
         return salonRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Invalid id"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Invalid id"));
     }
 
 }
