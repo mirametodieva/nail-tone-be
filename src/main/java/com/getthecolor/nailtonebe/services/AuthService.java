@@ -66,7 +66,7 @@ public class AuthService {
         if (!password.matches(".*\\d.*")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must contain at least one digit.");
         }
-        if (!password.matches(".*[!@#$%^&*()-+=<>?].*")) {
+        if (!password.matches(".*[!@#$%^&*()-+=<>?.].*")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Password must contain at least one special character (!@#$%^&*()-+=<>?).");
         }
     }
