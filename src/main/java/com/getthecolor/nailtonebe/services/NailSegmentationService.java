@@ -4,6 +4,8 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,17 +25,23 @@ public class NailSegmentationService {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         var requestEntity = new HttpEntity<>(body, headers);
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.POST,
-                requestEntity,
-                byte[].class
-        );
+        try {
+            var response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    requestEntity,
+                    byte[].class
+            );
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return response.getBody();
-        } else {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Failed to segment nails: " + response.getStatusCode());
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return response.getBody();
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Flask service returned non-OK status: " + response.getStatusCode());
+            }
+        } catch (HttpServerErrorException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Flask service error 500: " + e.getResponseBodyAsString(), e);
+        } catch (RestClientException e) {
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Error connecting to Flask service", e);
         }
     }
 }
