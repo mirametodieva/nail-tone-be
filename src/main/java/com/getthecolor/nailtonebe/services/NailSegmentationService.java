@@ -16,7 +16,7 @@ public class NailSegmentationService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public byte[] segmentNails(File imageFile) {
-        var url = "http://localhost:5000/segment-nails";
+        var url = "http://ai-service:5000/segment-nails";
         var fileResource = new FileSystemResource(imageFile);
         var body = new LinkedMultiValueMap<>();
         body.add("image", fileResource);
