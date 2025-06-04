@@ -34,7 +34,7 @@ public class SecurityConfig {
     public DefaultSecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults()) // ✅ Enable CORS here
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
@@ -48,11 +48,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost");
-        configuration.addAllowedOrigin("http://157.180.86.119");
+        configuration.addAllowedOriginPattern("http://157.180.86.119");
 
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        
+
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
