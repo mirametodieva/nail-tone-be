@@ -60,12 +60,8 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+         System.out.println("✅ SecurityConfig loaded with CORS: " + source.toString());
         return source;
-    }
-    
-    @PostConstruct
-    public void logInit() {
-        System.out.println("✅ SecurityConfig loaded with CORS: " + corsConfigurationSource().toString());
     }
 }
 
