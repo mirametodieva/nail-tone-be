@@ -49,12 +49,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("http://157.180.86.119");
-        configuration.addAllowedOrigin("http://localhost");
+        
+        configuration.setAllowedOriginPatterns(List.of("https://nail-tone.eu", "https://www.nail-tone.eu"));
+        
+        configuration.addAllowedOrigin("http://localhost:4200");
 
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
