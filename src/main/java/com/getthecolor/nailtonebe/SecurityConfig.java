@@ -51,8 +51,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        configuration.setAllowedOriginPatterns(List.of("https://nail-tone.eu", "https://www.nail-tone.eu"));
-        
+        configuration.addAllowedOrigin("https://nail-tone.eu");
+        configuration.addAllowedOrigin("https://www.nail-tone.eu");
         configuration.addAllowedOrigin("http://localhost:4200");
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
